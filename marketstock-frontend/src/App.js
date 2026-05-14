@@ -6,9 +6,9 @@ import PrivateRoute from './components/layout/PrivateRoute';
 import Register from './pages/auth/Register';
 import Activate from './pages/auth/Activate';
 import Login from './pages/auth/Login';
+import Dashboard from './pages/dashboard/Dashboard';
 
 // Placeholders temporários remanescentes
-const Dashboard = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>Dashboard — em desenvolvimento</div>;
 const ProductList = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>ProductList — em desenvolvimento</div>;
 const ProductCreate = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>ProductCreate — em desenvolvimento</div>;
 const ProductEdit = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>ProductEdit — em desenvolvimento</div>;
