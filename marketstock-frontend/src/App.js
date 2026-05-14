@@ -1,10 +1,39 @@
+import { Routes, Route, Navigate } from 'react-router-dom';
+import AppLayout from './components/layout/AppLayout';
+import PrivateRoute from './components/layout/PrivateRoute';
+
+// Placeholders temporários
+const Register = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>Register — em desenvolvimento</div>;
+const Activate = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>Activate — em desenvolvimento</div>;
+const Login = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>Login — em desenvolvimento</div>;
+const Dashboard = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>Dashboard — em desenvolvimento</div>;
+const ProductList = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>ProductList — em desenvolvimento</div>;
+const ProductCreate = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>ProductCreate — em desenvolvimento</div>;
+const ProductEdit = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>ProductEdit — em desenvolvimento</div>;
+const ProductDetail = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>ProductDetail — em desenvolvimento</div>;
+const NewSale = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>NewSale — em desenvolvimento</div>;
+const SaleHistory = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>SaleHistory — em desenvolvimento</div>;
+const Profile = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>Profile — em desenvolvimento</div>;
+
 function App() {
   return (
-    <div className="min-h-screen bg-brand-50 flex items-center justify-center">
-      <h1 className="text-4xl font-display font-bold text-brand-600 animate-fade-in">
-        MarketStock
-      </h1>
-    </div>
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/cadastro" element={<Register />} />
+      <Route path="/ativar" element={<Activate />} />
+      <Route path="/login" element={<Login />} />
+      <Route element={<PrivateRoute><AppLayout /></PrivateRoute>}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/produtos" element={<ProductList />} />
+        <Route path="/produtos/novo" element={<ProductCreate />} />
+        <Route path="/produtos/:id" element={<ProductDetail />} />
+        <Route path="/produtos/:id/editar" element={<ProductEdit />} />
+        <Route path="/venda" element={<NewSale />} />
+        <Route path="/vendas" element={<SaleHistory />} />
+        <Route path="/perfil" element={<Profile />} />
+      </Route>
+    </Routes>
   );
 }
+
 export default App;
