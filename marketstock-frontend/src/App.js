@@ -2,10 +2,12 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import AppLayout from './components/layout/AppLayout';
 import PrivateRoute from './components/layout/PrivateRoute';
 
-// Placeholders temporários
-const Register = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>Register — em desenvolvimento</div>;
-const Activate = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>Activate — em desenvolvimento</div>;
-const Login = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>Login — em desenvolvimento</div>;
+// Páginas Reais
+import Register from './pages/auth/Register';
+import Activate from './pages/auth/Activate';
+import Login from './pages/auth/Login';
+
+// Placeholders temporários remanescentes
 const Dashboard = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>Dashboard — em desenvolvimento</div>;
 const ProductList = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>ProductList — em desenvolvimento</div>;
 const ProductCreate = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>ProductCreate — em desenvolvimento</div>;
