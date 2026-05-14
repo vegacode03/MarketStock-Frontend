@@ -8,9 +8,9 @@ import Activate from './pages/auth/Activate';
 import Login from './pages/auth/Login';
 import Dashboard from './pages/dashboard/Dashboard';
 import ProductList from './pages/products/ProductList';
+import ProductCreate from './pages/products/ProductCreate';
 
 // Placeholders temporários remanescentes
-const ProductCreate = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>ProductCreate — em desenvolvimento</div>;
 const ProductEdit = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>ProductEdit — em desenvolvimento</div>;
 const ProductDetail = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>ProductDetail — em desenvolvimento</div>;
 const NewSale = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>NewSale — em desenvolvimento</div>;

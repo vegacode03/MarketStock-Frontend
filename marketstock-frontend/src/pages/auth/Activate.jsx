@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { sellerApi } from '../../api/seller';
 import { useToast } from '../../context/ToastContext';
 import { Button } from '../../components/ui/index';
-import { MessageSquare } from 'lucide-react';
+import { MessageSquare, ArrowLeft } from 'lucide-react';
 
 export default function Activate() {
   const [code, setCode] = useState(['', '', '', '']);
@@ -25,45 +25,37 @@ export default function Activate() {
 
   const handleChange = (index, value) => {
     if (!/^\d*$/.test(value)) return;
-
     const newCode = [...code];
     newCode[index] = value.slice(-1);
     setCode(newCode);
-
-    if (value && index < 3) {
-      inputRefs.current[index + 1].focus();
-    }
+    if (value && index < 3) inputRefs.current[index + 1].focus();
   };
 
   const handleKeyDown = (index, e) => {
-    if (e.key === 'Backspace' && !code[index] && index > 0) {
-      inputRefs.current[index - 1].focus();
-    }
+    if (e.key === 'Backspace' && !code[index] && index > 0) inputRefs.current[index - 1].focus();
   };
 
   const handlePaste = (e) => {
     e.preventDefault();
     const pasteData = e.clipboardData.getData('text').slice(0, 4).split('');
     const newCode = [...code];
-    pasteData.forEach((char, i) => {
-      if (/^\d$/.test(char)) newCode[i] = char;
-    });
+    pasteData.forEach((char, i) => { if (/^\d$/.test(char)) newCode[i] = char; });
     setCode(newCode);
-    if (pasteData.length > 0) {
-      inputRefs.current[Math.min(pasteData.length, 3)].focus();
-    }
+    if (pasteData.length > 0) inputRefs.current[Math.min(pasteData.length, 3)].focus();
   };
 
   const onActivate = async () => {
     setLoading(true);
+    console.log('Ativando para o telefone:', phone, 'com o código:', code.join(''));
     try {
       await sellerApi.activate(phone, code.join(''));
-      addToast('Conta ativada!', 'success');
+      addToast('Conta ativada com sucesso!', 'success');
       navigate('/login');
     } catch (e) {
+      console.error('Erro na ativação:', e.response?.data || e.message);
       setShakeError(true);
       setTimeout(() => setShakeError(false), 400);
-      addToast(e.response?.data?.message || 'Código inválido', 'error');
+      addToast(e.response?.data?.message || 'Erro ao ativar conta. Verifique o código.', 'error');
     } finally {
       setLoading(false);
     }
@@ -78,7 +70,7 @@ export default function Activate() {
           </div>
           <h2 className="font-display text-2xl font-semibold text-gray-800">Verifique seu WhatsApp</h2>
           <p className="text-sm text-gray-500 mt-2 mb-6">
-            Enviamos um código para <span className="font-semibold text-gray-700">{phone}</span>.
+            Enviamos um código para <span className="font-semibold text-gray-700">{phone || 'número não informado'}</span>.
           </p>
         </div>
 
@@ -101,26 +93,30 @@ export default function Activate() {
         <Button 
           onClick={onActivate} 
           className="w-full mb-4" 
-          disabled={code.join('').length < 4}
+          disabled={code.join('').length < 4 || !phone}
           loading={loading}
         >
-          Ativar conta
+          Confirmar Código
         </Button>
 
-        <div className="text-center space-y-4">
+        <div className="text-center space-y-4 pt-2">
           {resendCooldown > 0 ? (
-            <p className="text-sm text-gray-400">Reenviar em {resendCooldown}s</p>
+            <p className="text-sm text-gray-400">Reenviar código em {resendCooldown}s</p>
           ) : (
             <button 
-              onClick={() => setResendCooldown(60)}
+              onClick={() => {
+                setResendCooldown(60);
+                addToast('Solicitação de reenvio enviada!', 'info');
+              }}
               className="text-sm text-brand-600 font-medium hover:underline"
             >
-              Reenviar código
+              Reenviar código agora
             </button>
           )}
 
-          <Link to="/cadastro" className="block text-sm text-gray-500 hover:text-gray-700">
-            ← Voltar para o cadastro
+          <Link to="/cadastro" className="flex items-center justify-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition-colors">
+            <ArrowLeft size={16} />
+            Voltar e corrigir dados
           </Link>
         </div>
       </div>
