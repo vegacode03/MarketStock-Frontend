@@ -18,7 +18,7 @@ import { useToast } from '../../context/ToastContext';
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
-  const [sales, setSales] = useState([]);
+  const [topProducts, setTopProducts] = useState([]);
   const [lowStock, setLowStock] = useState([]);
   const [summary, setSummary] = useState(null);
   const { addToast } = useToast();
@@ -28,15 +28,30 @@ export default function Dashboard() {
       try {
         const results = await Promise.allSettled([
           productApi.list(),
-          saleApi.list(),
+          reportApi.topProducts(5),
           reportApi.lowStock(10),
           reportApi.summary('month')
         ]);
 
-        if (results[0].status === 'fulfilled') setProducts(results[0].value.data);
-        if (results[1].status === 'fulfilled') setSales(results[1].value.data);
-        if (results[2].status === 'fulfilled') setLowStock(results[2].value.data);
-        if (results[3].status === 'fulfilled') setSummary(results[3].value.data);
+        if (results[0].status === 'fulfilled') {
+          const data = results[0].value.data;
+          // Garante que products seja sempre um array
+          setProducts(Array.isArray(data) ? data : (data?.products || []));
+        }
+        
+        if (results[1].status === 'fulfilled') {
+          const data = results[1].value.data;
+          setTopProducts(Array.isArray(data) ? data : []);
+        }
+
+        if (results[2].status === 'fulfilled') {
+          const data = results[2].value.data;
+          setLowStock(Array.isArray(data) ? data : []);
+        }
+
+        if (results[3].status === 'fulfilled') {
+          setSummary(results[3].value.data || null);
+        }
 
       } catch (error) {
         addToast('Erro ao carregar dados do dashboard', 'error');
@@ -48,18 +63,20 @@ export default function Dashboard() {
     fetchData();
   }, [addToast]);
 
-  const totalStock = products
-    .filter(p => p.status === 'ATIVO')
-    .reduce((acc, p) => acc + p.quantidade, 0);
+  // Variável segura para evitar erros de .filter()
+  const safeProducts = Array.isArray(products) ? products : [];
+  
+  const totalStock = safeProducts
+    .filter(p => p?.status === 'ATIVO')
+    .reduce((acc, p) => acc + (p?.quantity || p?.quantidade || 0), 0);
 
-  const totalRevenue = sales.reduce((acc, s) => acc + (s.quantity_sold * s.price_at_sale), 0);
-  const totalSales = sales.length;
+  const totalRevenue = summary?.total_revenue || 0;
+  const totalSales = summary?.total_items_sold || 0;
   const lowStockCount = lowStock.length;
 
-  const chartData = summary?.daily_sales || Array.from({ length: 7 }, (_, i) => ({
-    date: '',
-    total: 0
-  }));
+  const chartData = summary?.daily_sales || [
+    { date: 'Vendas Totais', total: totalRevenue }
+  ];
 
   if (loading) {
     return (
@@ -106,7 +123,7 @@ export default function Dashboard() {
         <Card className="p-4 bg-white border-gray-100">
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-xs text-gray-500 uppercase font-medium">Total de Vendas</p>
+              <p className="text-xs text-gray-500 uppercase font-medium">Total de Itens Vendidos</p>
               <h3 className="text-2xl font-display font-bold mt-1">{totalSales}</h3>
             </div>
             <ShoppingCart size={20} className="text-gray-400" />
@@ -136,7 +153,6 @@ export default function Dashboard() {
                 axisLine={false} 
                 tickLine={false} 
                 tick={{fontSize: 12, fill: '#9ca3af'}}
-                tickFormatter={(val) => val ? new Date(val).toLocaleDateString('pt-BR', { day: '2-digit' }) : ''}
               />
               <YAxis axisLine={false} tickLine={false} tick={{fontSize: 12, fill: '#9ca3af'}} />
               <Tooltip 
@@ -152,28 +168,26 @@ export default function Dashboard() {
 
       {/* Grid Inferior */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Vendas Recentes */}
+        {/* Produtos Mais Vendidos */}
         <Card className="p-5">
-          <h4 className="font-display font-semibold text-gray-700 mb-4">Vendas Recentes</h4>
-          {sales.length === 0 ? (
-            <EmptyState icon="💸" title="Nenhuma venda" description="As vendas realizadas aparecerão aqui." />
+          <h4 className="font-display font-semibold text-gray-700 mb-4">Produtos Mais Vendidos</h4>
+          {topProducts.length === 0 ? (
+            <EmptyState icon="💸" title="Nenhuma venda" description="As estatísticas de vendas aparecerão aqui." />
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left">
                 <thead>
                   <tr className="text-gray-400 border-b border-gray-50">
                     <th className="pb-3 font-medium">Produto</th>
-                    <th className="pb-3 font-medium">Qtd</th>
-                    <th className="pb-3 font-medium text-right">Total</th>
+                    <th className="pb-3 font-medium text-right">Qtd Vendida</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {sales.slice(-5).reverse().map((sale) => (
-                    <tr key={sale.id}>
-                      <td className="py-3 font-medium text-gray-700">{sale.product_name}</td>
-                      <td className="py-3 text-gray-500">{sale.quantity_sold}</td>
+                  {topProducts.map((item) => (
+                    <tr key={item.product_id}>
+                      <td className="py-3 font-medium text-gray-700">{item.name}</td>
                       <td className="py-3 text-right font-semibold text-brand-600">
-                        {formatBRL(sale.quantity_sold * sale.price_at_sale)}
+                        {item.total_sold} un
                       </td>
                     </tr>
                   ))}
@@ -195,9 +209,11 @@ export default function Dashboard() {
           ) : (
             <div className="space-y-4">
               {lowStock.map((prod) => (
-                <div key={prod.id} className="flex items-center justify-between p-3 rounded-xl bg-gray-50">
-                  <span className="text-sm font-medium text-gray-700">{prod.nome}</span>
-                  <Badge variant="danger">{prod.quantidade} un</Badge>
+                <div key={prod.product_id} className="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+                  <span className="text-sm font-medium text-gray-700">{prod.name}</span>
+                  <span className="px-2 py-1 text-xs font-bold text-red-600 bg-red-100 rounded-full">
+                    {prod.current_quantity} un
+                  </span>
                 </div>
               ))}
             </div>
