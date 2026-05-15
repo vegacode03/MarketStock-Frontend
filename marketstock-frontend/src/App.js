@@ -11,9 +11,9 @@ import ProductList from './pages/products/ProductList';
 import ProductCreate from './pages/products/ProductCreate';
 import ProductEdit from './pages/products/ProductEdit';
 import ProductDetail from './pages/products/ProductDetail';
+import NewSale from './pages/sales/NewSale';
 
 // Placeholders temporários remanescentes
-const NewSale = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>NewSale — em desenvolvimento</div>;
 const SaleHistory = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>SaleHistory — em desenvolvimento</div>;
 const Profile = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>Profile — em desenvolvimento</div>;
 
