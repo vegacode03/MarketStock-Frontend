@@ -8,11 +8,11 @@ export const productApi = {
     return api.get(`/api/products/${id}`);
   },
   create(data) {
-    return api.post('/api/products', {
-      nome: data.name,
-      preco: data.price,
-      quantidade: data.quantity,
-      imagem: data.image
+    // Agora aceita FormData para upload de imagem
+    return api.post('/api/products', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     });
   },
   update(id, data) {
