@@ -16,11 +16,11 @@ export const productApi = {
     });
   },
   update(id, data) {
-    return api.put(`/api/products/${id}`, {
-      nome: data.name,
-      preco: data.price,
-      quantidade: data.quantity,
-      imagem: data.image
+    // Aceita FormData para permitir upload de imagem na edição
+    return api.put(`/api/products/${id}`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     });
   },
   inactivate(id) {
