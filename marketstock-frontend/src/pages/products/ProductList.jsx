@@ -33,7 +33,9 @@ export default function ProductList() {
   async function fetchProducts() {
     try {
       const response = await productApi.list();
-      setProducts(response.data);
+      const data = response.data;
+      // Garante que products seja sempre um array
+      setProducts(Array.isArray(data) ? data : (data?.products || []));
     } catch (error) {
       addToast('Erro ao carregar produtos', 'error');
     } finally {
@@ -41,9 +43,15 @@ export default function ProductList() {
     }
   }
 
-  const filteredProducts = products
-    .filter(p => (p.nome || '').toLowerCase().includes(search.toLowerCase()))
-    .filter(p => statusFilter === 'all' || p.status === statusFilter);
+  // Variável segura para evitar erros de .filter()
+  const safeProducts = Array.isArray(products) ? products : [];
+
+  const filteredProducts = safeProducts
+    .filter(p => {
+      const name = p?.nome || p?.name || '';
+      return name.toLowerCase().includes(search.toLowerCase());
+    })
+    .filter(p => statusFilter === 'all' || p?.status === statusFilter);
 
   const handleInactivate = async () => {
     try {
@@ -126,69 +134,76 @@ export default function ProductList() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {filteredProducts.map((product) => (
-                  <tr key={product.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
-                          {product.imagem ? (
-                            <img src={product.imagem} alt={product.nome} className="w-full h-full object-cover" />
-                          ) : (
-                            <Package size={20} className="text-gray-400" />
+                {filteredProducts.map((product) => {
+                  const productName = product?.nome || product?.name || 'Sem nome';
+                  const productPrice = product?.preco || product?.price || 0;
+                  const productQuantity = product?.quantidade || product?.quantity || 0;
+                  const productImage = product?.imagem || product?.image;
+
+                  return (
+                    <tr key={product.id} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
+                            {productImage ? (
+                              <img src={productImage} alt={productName} className="w-full h-full object-cover" />
+                            ) : (
+                              <Package size={20} className="text-gray-400" />
+                            )}
+                          </div>
+                          <span className="font-medium text-gray-700">{productName}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-gray-600">
+                        {formatBRL(productPrice)}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <span className="text-gray-700 font-medium">{productQuantity}</span>
+                          {productQuantity <= 5 && (
+                            <Badge variant="danger">Baixo</Badge>
                           )}
                         </div>
-                        <span className="font-medium text-gray-700">{product.nome}</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-gray-600">
-                      {formatBRL(product.preco)}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <span className="text-gray-700 font-medium">{product.quantidade}</span>
-                        {product.quantidade <= 5 && (
-                          <Badge variant="danger">Baixo</Badge>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      <Badge variant={product.status === 'ATIVO' ? 'success' : 'inactive'}>
-                        {product.status === 'ATIVO' ? 'Ativo' : 'Inativo'}
-                      </Badge>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          onClick={() => navigate(`/produtos/${product.id}`)}
-                          title="Ver detalhes"
-                        >
-                          <Eye size={18} />
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          onClick={() => navigate(`/produtos/${product.id}/editar`)}
-                          title="Editar"
-                        >
-                          <Pencil size={18} />
-                        </Button>
-                        {product.status === 'ATIVO' && (
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <Badge variant={product.status === 'ATIVO' ? 'success' : 'inactive'}>
+                          {product.status === 'ATIVO' ? 'Ativo' : 'Inativo'}
+                        </Badge>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <div className="flex justify-end gap-2">
                           <Button 
                             variant="ghost" 
                             size="sm" 
-                            className="text-red-500 hover:bg-red-50"
-                            onClick={() => setConfirmModal({ open: true, productId: product.id })}
-                            title="Inativar"
+                            onClick={() => navigate(`/produtos/${product.id}`)}
+                            title="Ver detalhes"
                           >
-                            <XCircle size={18} />
+                            <Eye size={18} />
                           </Button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            onClick={() => navigate(`/produtos/${product.id}/editar`)}
+                            title="Editar"
+                          >
+                            <Pencil size={18} />
+                          </Button>
+                          {product.status === 'ATIVO' && (
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className="text-red-500 hover:bg-red-50"
+                              onClick={() => setConfirmModal({ open: true, productId: product.id })}
+                              title="Inativar"
+                            >
+                              <XCircle size={18} />
+                            </Button>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
