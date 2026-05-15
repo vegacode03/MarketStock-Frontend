@@ -35,8 +35,8 @@ export default function Dashboard() {
 
         if (results[0].status === 'fulfilled') {
           const data = results[0].value.data;
-          // Garante que products seja sempre um array
-          setProducts(Array.isArray(data) ? data : (data?.products || []));
+          // Ajustado para encontrar a chave 'Produtos' vinda do seu backend
+          setProducts(Array.isArray(data) ? data : (data?.Produtos || data?.products || []));
         }
         
         if (results[1].status === 'fulfilled') {

@@ -34,8 +34,8 @@ export default function ProductList() {
     try {
       const response = await productApi.list();
       const data = response.data;
-      // Garante que products seja sempre um array
-      setProducts(Array.isArray(data) ? data : (data?.products || []));
+      // Ajustado para encontrar a chave 'Produtos' vinda do seu backend
+      setProducts(Array.isArray(data) ? data : (data?.Produtos || data?.products || []));
     } catch (error) {
       addToast('Erro ao carregar produtos', 'error');
     } finally {
