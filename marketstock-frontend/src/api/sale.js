@@ -8,7 +8,7 @@ export const saleApi = {
     });
   },
   list() {
-    return api.get('/api/sales');
+    return api.get('/api/sale');
   }
 };
 
