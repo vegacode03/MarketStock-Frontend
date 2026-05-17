@@ -111,7 +111,7 @@ export default function ProductDetail() {
                 <span className="text-sm text-gray-600">
                   Estoque: <span className="font-semibold text-gray-900">{product.quantidade}</span> unidades
                 </span>
-                {product.quantidade <= 5 && (
+                {product.quantidade <= 10 && (
                   <Badge variant="danger">Baixo Estoque</Badge>
                 )}
               </div>

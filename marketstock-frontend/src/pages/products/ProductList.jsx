@@ -160,7 +160,7 @@ export default function ProductList() {
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
                           <span className="text-gray-700 font-medium">{productQuantity}</span>
-                          {productQuantity <= 5 && (
+                          {productQuantity <= 10 && (
                             <Badge variant="danger">Baixo</Badge>
                           )}
                         </div>
