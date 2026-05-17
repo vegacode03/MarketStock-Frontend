@@ -149,6 +149,21 @@ Um seller autenticado pode:
 - Monitoramento de estoque em tempo real.
 
 <h2 id="interface">🖥️ Interface</h2>
+<div align="center">
+  <p>✦ Tela Login<br><img src="Imagens/Tela Login.jpg" alt="Tela Login" width="400px"><br></p>
+  <p>✦ Tela Cadastro<br><img src="Imagens/Tela Cadastro.jpg" alt="Tela Cadastro" width="400px"><br></p>
+  <p>✦ Tela Ativação Código<br><img src="Imagens/Tela Ativação Código.jpg" alt="Tela Ativação Código" width="400px"><br></p>
+  <p>✦ Tela Dashboard<br><img src="Imagens/Tela Dashboard.jpg" alt="Tela Dashboard" width="400px"><br></p>
+  <p>✦ Tela Lista de Produtos<br><img src="Imagens/Tela Lista de Produtos.jpg" alt="Tela Lista de Produtos" width="400px"><br></p>
+  <p>✦ Tela Cadastro de Produto<br><img src="Imagens/Tela Cadastro Produto.jpg" alt="Tela Cadastro de Produto" width="400px"><br></p>
+  <p>✦ Tela Detalhe de Produto<br><img src="Imagens/Tela Detalhe de Produto.jpg" alt="Tela Detalhe de Produto" width="400px"><br></p>
+  <p>✦ Tela Editar Produto<br><img src="Imagens/Tela Editar Produto.jpg" alt="Tela Editar Produto" width="400px"><br></p>
+  <p>✦ Tela Inativar Produto<br><img src="Imagens/Tela Inativar Produto.jpg" alt="Tela Inativar Produto" width="400px"><br></p>
+  <p>✦ Tela Realizar Venda <br><img src="Imagens/Tela Realizar Venda.jpg" alt="Tela Realizar Venda" width="400px"><br></p>
+  <p>✦ Tela Sucesso Venda <br><img src="Imagens/Tela Sucesso Venda.jpg" alt="Tela Sucesso Venda" width="400px"><br></p>
+  <p>✦ Tela Histórico de Vendas<br><img src="Imagens/Tela Historico Vendas.jpg" alt="Tela Histórico Vendas" width="400px"><br></p>
+  <p>✦ Tela Perfil Mercado<br><img src="Imagens/Tela Perfil Mercado.jpg" alt="Tela Perfil Mercado" width="400px"><br></p>
+<div/>
 
 
 <h2 id="licença">📜 Licença</h2>
