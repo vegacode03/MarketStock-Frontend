@@ -40,17 +40,21 @@ export default function Dashboard() {
         }
         
         if (results[1].status === 'fulfilled') {
-          const data = results[1].value.data;
-          setTopProducts(Array.isArray(data) ? data : []);
+          const respData = results[1].value.data;
+          // O backend retorna { "data": [...] }, então pegamos respData.data
+          setTopProducts(Array.isArray(respData?.data) ? respData.data : []);
         }
 
         if (results[2].status === 'fulfilled') {
-          const data = results[2].value.data;
-          setLowStock(Array.isArray(data) ? data : []);
+          const respData = results[2].value.data;
+          // O backend retorna { "data": [...] }, então pegamos respData.data
+          setLowStock(Array.isArray(respData?.data) ? respData.data : []);
         }
 
         if (results[3].status === 'fulfilled') {
-          setSummary(results[3].value.data || null);
+          const respData = results[3].value.data;
+          // O backend retorna { "data": { ... } }, então pegamos respData.data
+          setSummary(respData?.data || respData || null);
         }
 
       } catch (error) {
