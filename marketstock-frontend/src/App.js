@@ -13,9 +13,7 @@ import ProductEdit from './pages/products/ProductEdit';
 import ProductDetail from './pages/products/ProductDetail';
 import NewSale from './pages/sales/NewSale';
 import SaleHistory from './pages/sales/SaleHistory';
-
-// Placeholders temporários remanescentes
-const Profile = () => <div style={{padding:'2rem',fontFamily:'sans-serif'}}>Profile — em desenvolvimento</div>;
+import Profile from './pages/profile/Profile';
 
 function App() {
   return (
