@@ -35,25 +35,21 @@ export default function Dashboard() {
 
         if (results[0].status === 'fulfilled') {
           const data = results[0].value.data;
-          // Ajustado para encontrar a chave 'Produtos' vinda do seu backend
           setProducts(Array.isArray(data) ? data : (data?.Produtos || data?.products || []));
         }
         
         if (results[1].status === 'fulfilled') {
           const respData = results[1].value.data;
-          // O backend retorna { "data": [...] }, então pegamos respData.data
           setTopProducts(Array.isArray(respData?.data) ? respData.data : []);
         }
 
         if (results[2].status === 'fulfilled') {
           const respData = results[2].value.data;
-          // O backend retorna { "data": [...] }, então pegamos respData.data
           setLowStock(Array.isArray(respData?.data) ? respData.data : []);
         }
 
         if (results[3].status === 'fulfilled') {
           const respData = results[3].value.data;
-          // O backend retorna { "data": { ... } }, então pegamos respData.data
           setSummary(respData?.data || respData || null);
         }
 
@@ -67,7 +63,6 @@ export default function Dashboard() {
     fetchData();
   }, [addToast]);
 
-  // Variável segura para evitar erros de .filter()
   const safeProducts = Array.isArray(products) ? products : [];
   
   const totalStock = safeProducts

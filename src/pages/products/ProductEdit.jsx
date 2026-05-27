@@ -37,7 +37,6 @@ export default function ProductEdit() {
   useEffect(() => {
     productApi.show(id)
       .then(res => {
-        // Pega do wrapper "Produto" conforme seu Controller
         const p = res.data?.Produto;
         
         if (p) {
@@ -71,8 +70,6 @@ export default function ProductEdit() {
       formData.append('quantidade', data.quantity);
       formData.append('status', data.status);
       
-      // Só envia o campo 'imagem' se houver um novo arquivo selecionado
-      // data.image será um FileList se o usuário clicou no input
       if (data.image && data.image[0] instanceof File) {
         formData.append('imagem', data.image[0]);
       }

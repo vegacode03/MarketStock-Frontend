@@ -2,7 +2,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import AppLayout from './components/layout/AppLayout';
 import PrivateRoute from './components/layout/PrivateRoute';
 
-// Páginas Reais
 import Register from './pages/auth/Register';
 import Activate from './pages/auth/Activate';
 import Login from './pages/auth/Login';

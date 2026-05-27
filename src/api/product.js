@@ -8,7 +8,6 @@ export const productApi = {
     return api.get(`/api/products/${id}`);
   },
   create(data) {
-    // Agora aceita FormData para upload de imagem
     return api.post('/api/products', data, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -16,7 +15,6 @@ export const productApi = {
     });
   },
   update(id, data) {
-    // Aceita FormData para permitir upload de imagem na edição
     return api.put(`/api/products/${id}`, data, {
       headers: {
         'Content-Type': 'multipart/form-data'

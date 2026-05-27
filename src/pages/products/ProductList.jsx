@@ -34,7 +34,6 @@ export default function ProductList() {
     try {
       const response = await productApi.list();
       const data = response.data;
-      // Ajustado para encontrar a chave 'Produtos' vinda do seu backend
       setProducts(Array.isArray(data) ? data : (data?.Produtos || data?.products || []));
     } catch (error) {
       addToast('Erro ao carregar produtos', 'error');
@@ -43,7 +42,6 @@ export default function ProductList() {
     }
   }
 
-  // Variável segura para evitar erros de .filter()
   const safeProducts = Array.isArray(products) ? products : [];
 
   const filteredProducts = safeProducts

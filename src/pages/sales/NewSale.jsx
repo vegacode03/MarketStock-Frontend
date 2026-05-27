@@ -22,7 +22,6 @@ export default function NewSale() {
       .then(res => {
         const data = res.data;
         const allProducts = Array.isArray(data) ? data : (data?.Produtos || data?.products || []);
-        // Filtra apenas produtos ativos e com estoque > 0
         setProducts(allProducts.filter(p => p.status === 'ATIVO'));
       })
       .catch(() => {

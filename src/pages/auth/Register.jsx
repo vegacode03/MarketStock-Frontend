@@ -30,7 +30,6 @@ export default function Register() {
     resolver: zodResolver(registerSchema)
   });
 
-  // Função para ver erros de validação no console (F12)
   const onError = (errors) => {
     console.log('Erros de validação encontrados:', errors);
   };

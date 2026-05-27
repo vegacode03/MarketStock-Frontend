@@ -18,7 +18,6 @@ export default function ProductDetail() {
   useEffect(() => {
     productApi.show(id)
       .then(res => {
-        // Mapeia os dados do backend (Produto wrapper)
         const p = res.data?.Produto;
         if (p) {
           setProduct({
