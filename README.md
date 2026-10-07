@@ -6,6 +6,8 @@
     <img src="https://img.shields.io/badge/Status-Concluído-brightgreen" alt="Status = Concluído">
     <img src="https://img.shields.io/badge/Documentação-Completa-brightgreen" alt="Documentação: Completa">
     <img src="https://img.shields.io/badge/License-MIT-blue" alt="License = MIT">
+    <a href="./README.md" target="_blank"><img title="PT-BR" src="https://img.shields.io/badge/docs-pt--BR-blue" alt="README PT-BR"></a>
+    <a href="./README.en.md" target="_blank"><img title="EN-US" src="https://img.shields.io/badge/docs-en--US-blue" alt="README EN-US"></a>
 </p>
 
 <br>
@@ -163,8 +165,7 @@ Um seller autenticado pode:
   <p>✦ Tela Sucesso Venda <br><img src="Imagens/Tela Sucesso Venda.jpg" alt="Tela Sucesso Venda" width="800px"><br></p>
   <p>✦ Tela Histórico de Vendas<br><img src="Imagens/Tela Historico Vendas.jpg" alt="Tela Histórico Vendas" width="800px"><br></p>
   <p>✦ Tela Perfil Mercado<br><img src="Imagens/Tela Perfil Mercado.jpg" alt="Tela Perfil Mercado" width="800px"><br></p>
-<div/>
-
+</div>
 
 <h2 id="licença">📜 Licença</h2>
 Este projeto é para fins educacionais e está disponível sob a <a href="./LICENSE">Licença MIT.</a>
